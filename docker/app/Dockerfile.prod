@@ -16,6 +16,7 @@ WORKDIR /var/www/html
 # Copia el código de la aplicación.
 COPY . .
 
+RUN git config --global --add safe.directory /var/www/html
 # Instala las dependencias de PHP para producción.
 RUN composer install --no-dev --optimize-autoloader
 
