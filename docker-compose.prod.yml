@@ -7,8 +7,6 @@ services:
       dockerfile: docker/app/Dockerfile.prod
     volumes:
       - ./:/var/www/html
-    depends_on:
-      - db
 
   web:
     image: nginx:latest
@@ -19,16 +17,3 @@ services:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - app
-
-  db:
-    image: postgres:15-alpine # 💡 Usamos una imagen ligera y específica
-    restart: always # 💡 Recomendado para producción
-    environment:
-      POSTGRES_DB: laravel      # 💡 Variable para el nombre de la base de datos
-      POSTGRES_USER: laravel    # 💡 Variable para el usuario
-      POSTGRES_PASSWORD: secret # 💡 Variable para la contraseña
-    volumes:
-      - db-data:/var/lib/postgresql/data # 💡 La ruta de los datos para PostgreSQL
-
-volumes:
-  db-data:
