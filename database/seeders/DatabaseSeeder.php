@@ -26,6 +26,14 @@ class DatabaseSeeder extends Seeder
             NivelSeeder::class,
             TipoSeeder::class,
             MateriaSeeder::class,
+            DocenteSeeder::class,
+            EstudianteSeeder::class,
+            GestionSeeder::class,
+            ModuloSeeder::class,
+            GrupoSeeder::class,
+            HorarioSeeder::class,
+            InscripcionSeeder::class,
+            MateriaEstudianteSeeder::class
         ]);
     }
 }
