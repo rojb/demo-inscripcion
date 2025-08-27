@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Estudiante;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class EstudianteSeeder extends Seeder
 {
@@ -18,7 +20,21 @@ class EstudianteSeeder extends Seeder
         ];
 
         foreach ($estudiantes as $estudiante) {
-            Estudiante::create($estudiante);
+             // Crear usuario
+            $user = User::create([
+                'name' => $estudiante['nombre'],
+                'email' => $estudiante['email'],
+                'password' => Hash::make($estudiante['registro']), // Contraseña = número de registro
+            ]);
+
+            // Crear estudiante asociado al usuario
+            Estudiante::create([
+                'registro' => $estudiante['registro'],
+                'nombre' => $estudiante['nombre'],
+                'email' => $estudiante['email'],
+                'telefono' => $estudiante['telefono'],
+                'usuario_id' => $user->id,
+            ]);
         }
     }
 }

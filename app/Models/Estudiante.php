@@ -30,4 +30,9 @@ class Estudiante extends Model
             ->withPivot('nota', 'creditos', 'materia_id')
             ->withTimestamps();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
 }

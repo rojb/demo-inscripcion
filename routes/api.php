@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AulaController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\DocenteController;
@@ -13,15 +14,17 @@ use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MateriaEstudianteController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/login', [AuthController::class, 'login']);
 
 //Hola mundo
 Route::get('/hola', function () {
-    return response()->json(['message' => 'Hola topicos Postgress']);
+    return response()->json(['message' => 'Hola tópicos Postgres']);
 });
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
 
     Route::get('/materias-carrera/{carrera}', [MateriaController::class, 'obtenerMateriasUltimoPlan']);
     Route::get('/materias', [MateriaController::class, 'index']);
@@ -96,5 +99,4 @@ Route::get('/hola', function () {
     // Rutas especiales para consultas específicas
     Route::get('/estudiantes/{estudiante_id}/notas', [MateriaEstudianteController::class, 'notasEstudiante']);
     Route::get('/materias/{materia_id}/estudiantes', [MateriaEstudianteController::class, 'estudiantesMateria']);
-
-
+});
