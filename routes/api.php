@@ -11,8 +11,8 @@ use App\Http\Controllers\GestionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\GrupoEstudianteController;
 use App\Http\Controllers\InscripcionController;
-use App\Http\Controllers\MateriaEstudianteController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -89,14 +89,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/inscripciones/{id}', [InscripcionController::class, 'update']);
     Route::delete('/inscripciones/{id}', [InscripcionController::class, 'destroy']);
 
-    // CRUD Materia-Estudiante (tabla pivot)
-    Route::get('/materia-estudiante', [MateriaEstudianteController::class, 'index']);
-    Route::post('/materia-estudiante', [MateriaEstudianteController::class, 'store']);
-    Route::get('/materia-estudiante/{id}', [MateriaEstudianteController::class, 'show']);
-    Route::put('/materia-estudiante/{id}', [MateriaEstudianteController::class, 'update']);
-    Route::delete('/materia-estudiante/{id}', [MateriaEstudianteController::class, 'destroy']);
+    // CRUD Grupo-Estudiante (tabla pivot)
+    Route::get('/grupo-estudiante', [GrupoEstudianteController::class, 'index']);
+    Route::post('/grupo-estudiante', [GrupoEstudianteController::class, 'store']);
+    Route::get('/grupo-estudiante/{id}', [GrupoEstudianteController::class, 'show']);
+    Route::put('/grupo-estudiante/{id}', [GrupoEstudianteController::class, 'update']);
+    Route::delete('/grupo-estudiante/{id}', [GrupoEstudianteController::class, 'destroy']);
 
     // Rutas especiales para consultas específicas
-    Route::get('/estudiantes/{estudiante_id}/notas', [MateriaEstudianteController::class, 'notasEstudiante']);
-    Route::get('/materias/{materia_id}/estudiantes', [MateriaEstudianteController::class, 'estudiantesMateria']);
+    Route::get('/estudiantes/{estudiante_id}/notas', [GrupoEstudianteController::class, 'notasEstudiante']);
 });
