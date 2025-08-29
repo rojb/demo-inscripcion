@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             GrupoSeeder::class,
             HorarioSeeder::class,
             InscripcionSeeder::class,
-            MateriaEstudianteSeeder::class
+            GrupoEstudianteSeeder::class
         ]);
     }
 }
