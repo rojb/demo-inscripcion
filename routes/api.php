@@ -11,6 +11,7 @@ use App\Http\Controllers\GestionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MateriaEstudianteController;
 use App\Http\Controllers\PlanEstudioController;
@@ -24,6 +25,8 @@ Route::get('/hola', function () {
 
 Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMaterias']);
 Route::get('/materias', [MateriaController::class, 'index']);
+
+Route::apiResource('facultades', FacultadController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

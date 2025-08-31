@@ -6,19 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     public function up(): void
     {
-        Schema::create('carreras', function (Blueprint $table) {
+        Schema::create('facultades', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
             $table->string('nombre');
-            $table->foreignId('facultad_id')->constrained('facultades')->onDelete('cascade');
+            $table->string('abreviacion');
             $table->timestamps();
         });
     }
 
+
     public function down(): void
     {
-        Schema::dropIfExists('carreras');
+        Schema::dropIfExists('facultades');
     }
 };
