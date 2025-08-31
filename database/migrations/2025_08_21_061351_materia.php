@@ -15,7 +15,6 @@ return new class extends Migration
             $table->integer('creditos');
             $table->foreignId('nivel_id')->constrained('niveles')->onDelete('cascade');
             $table->foreignId('tipo_id')->constrained('tipos')->onDelete('cascade');
-            $table->foreignId('plan_estudio_id')->constrained('planes_estudio')->onDelete('cascade');
             $table->timestamps();
         });
     }

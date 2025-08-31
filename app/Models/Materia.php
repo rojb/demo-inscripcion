@@ -7,13 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Materia extends Model
 {
     protected $table = 'materias';
-    protected $fillable = ['sigla', 'nombre', 'creditos', 'nivel_id', 'tipo_id', 'plan_estudio_id'];
-
-    // Una materia pertenece a un plan de estudio
-    public function planEstudio()
-    {
-        return $this->belongsTo(PlanEstudio::class, 'plan_estudio_id');
-    }
+    protected $fillable = ['sigla', 'nombre', 'creditos', 'nivel_id', 'tipo_id'];
 
     // Una materia pertenece a un nivel
     public function nivel()
@@ -38,4 +32,11 @@ class Materia extends Model
     {
         return $this->belongsToMany(Materia::class, 'prerequisitos', 'prerequisito_id', 'materia_id');
     }
+
+    //Una materia está en muchos planes de estudio
+    public function materiaPlanes()
+    {
+        return $this->hasMany(MateriaPlan::class, 'materia_id');
+    }
+
 }

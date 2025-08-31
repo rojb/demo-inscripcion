@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\DocenteController;
@@ -27,6 +28,7 @@ Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMateria
 Route::get('/materias', [MateriaController::class, 'index']);
 
 Route::apiResource('facultades', FacultadController::class);
+Route::apiResource('carreras', CarreraController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

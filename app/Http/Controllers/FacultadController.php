@@ -9,12 +9,12 @@ class FacultadController extends Controller
 {
     public function index()
     {
-        return Facultad::all();
+        return Facultad::with('carreras')->get();
     }
 
     public function show($id)
     {
-        return Facultad::findOrFail($id);
+        return Facultad::with('carreras')->findOrFail($id);
     }
 
     public function store(Request $request)
