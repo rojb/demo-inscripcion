@@ -9,27 +9,20 @@ class Estudiante extends Model
     protected $table = 'estudiantes';
     protected $fillable = ['registro', 'nombre', 'email', 'telefono'];
 
+    //Un estudiante esta en 1 plan de estudio:
+    public function planEstudio()
+    {
+        return $this->belongsTo(PlanEstudio::class, 'plan_estudio_id');
+    }
+
     // Un estudiante puede estar inscrito en muchas gestiones
     public function inscripciones()
     {
         return $this->hasMany(Inscripcion::class, 'estudiante_id');
     }
 
-    // Un estudiante puede cursar muchas materias
-    public function materias()
-    {
-        return $this->belongsToMany(Materia::class, 'materia_estudiante')
-            ->withPivot('nota', 'creditos', 'grupo_id')
-            ->withTimestamps();
-    }
+    // TODO: Relacion con modelo GrupoEstudiante 1 estudiante esta en muchos GrupoEstudiante
 
-    // Relación con grupos a través de materia_estudiante
-    public function grupos()
-    {
-        return $this->belongsToMany(Grupo::class, 'materia_estudiante')
-            ->withPivot('nota', 'creditos', 'materia_id')
-            ->withTimestamps();
-    }
 
     public function user()
     {

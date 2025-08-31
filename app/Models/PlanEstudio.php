@@ -20,4 +20,10 @@ class PlanEstudio extends Model
 	{
 		return $this->hasMany(MateriaPlan::class, 'plan_estudio_id');
 	}
+
+    //En un plan de estudio estan muchos estudiantes:
+    public function estudiantes()
+    {
+        return $this->hasMany(Estudiante::class, 'plan_estudio_id');
+    }
 }
