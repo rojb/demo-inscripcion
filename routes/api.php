@@ -13,6 +13,7 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MateriaEstudianteController;
+use App\Http\Controllers\PlanEstudioController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -21,13 +22,17 @@ Route::get('/hola', function () {
     return response()->json(['message' => 'Hola tópicos Postgres']);
 });
 
+Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMaterias']);
+Route::get('/materias', [MateriaController::class, 'index']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 
+    // Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMaterias']);
     Route::get('/materias-carrera/{carrera}', [MateriaController::class, 'obtenerMateriasUltimoPlan']);
-    Route::get('/materias', [MateriaController::class, 'index']);
+    // Route::get('/materias', [MateriaController::class, 'index']);
     Route::post('/materias', [MateriaController::class, 'store']);
     Route::get('/materias/{id}', [MateriaController::class, 'show']);
     Route::put('/materias/{id}', [MateriaController::class, 'update']);
