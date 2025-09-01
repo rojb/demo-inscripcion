@@ -6,19 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     public function up(): void
     {
-        Schema::create('carreras', function (Blueprint $table) {
+        Schema::create('materia_planes', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
-            $table->string('nombre');
-            $table->foreignId('facultad_id')->constrained('facultades')->onDelete('cascade');
+            $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
+            $table->foreignId('plan_estudio_id')->constrained('planes_estudio')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
+
     public function down(): void
     {
-        Schema::dropIfExists('carreras');
+        Schema::dropIfExists('materia_planes');
     }
 };

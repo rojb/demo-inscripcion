@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             NivelSeeder::class,
             TipoSeeder::class,
             MateriaSeeder::class,
+            PrerequisitoSeeder::class,
             DocenteSeeder::class,
             EstudianteSeeder::class,
             GestionSeeder::class,

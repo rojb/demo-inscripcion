@@ -15,9 +15,15 @@ class PlanEstudio extends Model
 		return $this->belongsTo(Carrera::class, 'carrera_id');
 	}
 
-	// Un plan de estudio tiene muchas materias
-	public function materias()
+    // Un plan de estudio tiene muchas materias
+	public function materiaPlanes()
 	{
-		return $this->hasMany(Materia::class, 'plan_estudio_id');
+		return $this->hasMany(MateriaPlan::class, 'plan_estudio_id');
 	}
+
+    //En un plan de estudio estan muchos estudiantes:
+    public function estudiantes()
+    {
+        return $this->hasMany(Estudiante::class, 'plan_estudio_id');
+    }
 }

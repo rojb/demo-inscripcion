@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\DocenteController;
@@ -11,8 +12,11 @@ use App\Http\Controllers\GestionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\GrupoEstudianteController;
 use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\MateriaEstudianteController;
+use App\Http\Controllers\PlanEstudioController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -21,13 +25,20 @@ Route::get('/hola', function () {
     return response()->json(['message' => 'Hola tópicos Postgres']);
 });
 
+Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMaterias']);
+Route::get('/materias', [MateriaController::class, 'index']);
+
+Route::apiResource('facultades', FacultadController::class);
+Route::apiResource('carreras', CarreraController::class);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 
+    // Route::get('/plan-estudio/{carrera}', [PlanEstudioController::class, 'getMaterias']);
     Route::get('/materias-carrera/{carrera}', [MateriaController::class, 'obtenerMateriasUltimoPlan']);
-    Route::get('/materias', [MateriaController::class, 'index']);
+    // Route::get('/materias', [MateriaController::class, 'index']);
     Route::post('/materias', [MateriaController::class, 'store']);
     Route::get('/materias/{id}', [MateriaController::class, 'show']);
     Route::put('/materias/{id}', [MateriaController::class, 'update']);

@@ -19,7 +19,7 @@ class MateriaController extends Controller
 
     public function index()
     {
-        return Materia::all();
+        return Materia::with(['nivel', 'tipo', 'prerequisitos', 'esPrerequisitoDe', 'materiaPlanes'])->get();
     }
 
     public function store(Request $request)
