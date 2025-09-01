@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
             $table->string('sigla');
-            $table->string('nombre');
             $table->integer('cupo');
             $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
             $table->foreignId('docente_id')->constrained('docentes')->onDelete('cascade');

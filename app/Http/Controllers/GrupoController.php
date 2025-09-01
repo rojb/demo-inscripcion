@@ -9,7 +9,12 @@ class GrupoController extends Controller
 {
     public function index()
     {
-        return Grupo::with(['materia', 'docente', 'gestion', 'horarios', 'estudiantes'])->get();
+        return Grupo::with(['materia', 'docente', 'gestion', 'horarios'])->get();
+    }
+
+    public function grupoConEstudiantes()
+    {
+        return Grupo::with(['materia', 'docente', 'gestion', 'horarios','detallesInscripcion.inscripcion.estudiante'])->get();
     }
 
     public function store(Request $request)
@@ -28,7 +33,7 @@ class GrupoController extends Controller
 
     public function show(string $id)
     {
-        return Grupo::with(['materia', 'docente', 'gestion', 'horarios', 'estudiantes'])->findOrFail($id);
+        return Grupo::with(['materia', 'docente', 'gestion', 'horarios',])->findOrFail($id);
     }
 
     public function update(Request $request, string $id)
