@@ -14,4 +14,8 @@ class Aula extends Model
     {
         return $this->hasMany(Horario::class, 'aula_id');
     }
+    public function modulo()
+    {
+        return $this->belongsTo(Modulo::class, 'modulo_id');
+    }
 }

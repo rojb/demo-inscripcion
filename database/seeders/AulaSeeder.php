@@ -10,12 +10,10 @@ class AulaSeeder extends Seeder
     public function run(): void
     {
         $aulas = [
-            ['numero' => 'A101', 'capacidad' => 40, 'ubicacion' => 'Edificio A - Planta Baja'],
-            ['numero' => 'A102', 'capacidad' => 35, 'ubicacion' => 'Edificio A - Planta Baja'],
-            ['numero' => 'B201', 'capacidad' => 50, 'ubicacion' => 'Edificio B - Segundo Piso'],
-            ['numero' => 'B202', 'capacidad' => 45, 'ubicacion' => 'Edificio B - Segundo Piso'],
-            ['numero' => 'LAB01', 'capacidad' => 25, 'ubicacion' => 'Laboratorio de Computación'],
-            ['numero' => 'LAB02', 'capacidad' => 30, 'ubicacion' => 'Laboratorio de Programación'],
+            ['numero' => 'A101', 'modulo_id' => 1],
+            ['numero' => 'A102', 'modulo_id' => 1],
+            ['numero' => 'A103', 'modulo_id' => 1],
+            ['numero' => 'A104', 'modulo_id' => 1],
         ];
 
         foreach ($aulas as $aula) {
