@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DetalleInscripcion;
 use App\Models\Inscripcion;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,9 @@ class InscripcionSeeder extends Seeder
         ];
 
         foreach ($inscripciones as $inscripcion) {
-            Inscripcion::create($inscripcion);
+            $inscripcionGuardada = Inscripcion::create($inscripcion);
+            DetalleInscripcion::create(['inscripcion_id' => $inscripcionGuardada->id, 'grupo_id' => 1]);
+            DetalleInscripcion::create(['inscripcion_id' => $inscripcionGuardada->id, 'grupo_id' => 2]);
         }
     }
 }

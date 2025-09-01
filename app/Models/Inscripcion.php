@@ -24,4 +24,10 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Gestion::class, 'gestion_id');
     }
+
+    // Una inscripción tiene un detalle de grupos inscritos
+    public function detalle()
+    {
+        return $this->hasMany(DetalleInscripcion::class);
+    }
 }

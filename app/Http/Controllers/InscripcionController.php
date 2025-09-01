@@ -9,7 +9,17 @@ class InscripcionController extends Controller
 {
     public function index()
     {
-        return Inscripcion::with(['estudiante', 'gestion'])->get();
+        return Inscripcion::with([
+            'estudiante',
+            'gestion',
+            'detalle',
+            'detalle.grupo',
+            'detalle.grupo.materia',
+            'detalle.grupo.docente',
+            'detalle.grupo.horarios',
+            'detalle.grupo.horarios.modulo',
+            'detalle.grupo.horarios.aula',
+        ])->get();
     }
 
     public function store(Request $request)
@@ -25,7 +35,17 @@ class InscripcionController extends Controller
 
     public function show(string $id)
     {
-        return Inscripcion::with(['estudiante', 'gestion'])->findOrFail($id);
+        return Inscripcion::with([
+            'estudiante',
+            'gestion',
+            'detalle',
+            'detalle.grupo',
+            'detalle.grupo.materia',
+            'detalle.grupo.docente',
+            'detalle.grupo.horarios',
+            'detalle.grupo.horarios.modulo',
+            'detalle.grupo.horarios.aula',
+        ])->findOrFail($id);
     }
 
     public function update(Request $request, string $id)
