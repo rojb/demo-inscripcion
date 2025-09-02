@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
 use App\Models\Carrera;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,11 @@ class CarreraController extends Controller
 
     public function store(Request $request)
     {
-        $carrera = Carrera::create($request->all());
-        return response()->json($carrera, 201);
+        // $carrera = Carrera::create($request->all());
+        // return response()->json($carrera, 201);
+
+        StoreJob::dispatch(Carrera::class, $request->all());
+        return response()->json(['message' => 'Carrera en proceso de creación'], 202);
     }
 
     public function update(Request $request, $id)
