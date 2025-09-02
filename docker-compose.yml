@@ -3,8 +3,8 @@ services:
     build: ./docker/app
     volumes:
       - ./:/var/www/html
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 
   web:
     image: nginx:latest
@@ -16,17 +16,28 @@ services:
     depends_on:
       - app
 
-#   db:
-#     image: postgres:15-alpine
-#     environment:
-#       POSTGRES_DB: laravel
-#       POSTGRES_USER: laravel
-#       POSTGRES_PASSWORD: secret
-#     ports:
-#       - "5432:5433"
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # puerto de RabbitMQ
+      - "15672:15672" # consola web de administración
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
-
-# volumes:
-#   db-data:
+volumes:
+  db-data:
+  rabbitmq_data:
