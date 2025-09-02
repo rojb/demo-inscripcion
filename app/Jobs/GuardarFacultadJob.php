@@ -6,6 +6,8 @@ use App\Models\Facultad;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
+use function Illuminate\Log\log;
+
 class GuardarFacultadJob implements ShouldQueue
 {
     use Queueable;
@@ -21,9 +23,9 @@ class GuardarFacultadJob implements ShouldQueue
     {
         try {
             Facultad::create($this->dato);
-            \Log::info("Facultad creada.");
+            log()->info("Facultad creada.");
         } catch (\Throwable $e) {
-            \Log::error("Error al guardar facultad: " . $e->getMessage());
+            log()->error("Error al guardar facultad: " . $e->getMessage());
             // TODO: Definir si se reintenta, si se registra como fallido, etc.,
         }
     }
