@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GuardarFacultadJob;
 use App\Models\Facultad;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,10 @@ class FacultadController extends Controller
 
     public function store(Request $request)
     {
-        $facultad = Facultad::create($request->all());
-        return response()->json($facultad, 201);
+        GuardarFacultadJob::dispatch($request->all());
+        // GuardarFacultadJob::dispatch($request->all())->onQueue('principal');
+
+        return response()->json(['message' => 'Facultad en proceso de creación'], 202);
     }
 
     public function update(Request $request, $id)
