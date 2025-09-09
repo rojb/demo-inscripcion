@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MateriaEstudiante;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
+use App\Models\MateriaEstudiante;
 
 class MateriaEstudianteController extends Controller
 {
@@ -48,9 +49,8 @@ class MateriaEstudianteController extends Controller
 
     public function destroy(string $id)
     {
-        $materiaEstudiante = MateriaEstudiante::findOrFail($id);
-        $materiaEstudiante->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(MateriaEstudiante::class, $id);
+        return response()->json(['message' => 'Materia Estudiante en proceso de eliminación'], 202);
     }
 
     // Método adicional para obtener notas de un estudiante

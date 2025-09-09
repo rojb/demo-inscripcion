@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DetalleInscripcion;
+use App\Jobs\StoreJob;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
+use App\Models\DetalleInscripcion;
+use App\Models\Job;
 
 class DetalleInscripcionController extends Controller
 {
@@ -20,7 +23,9 @@ class DetalleInscripcionController extends Controller
             'grupo_id' => 'required|exists:grupos,id'
         ]);
 
-        return DetalleInscripcion::create($request->all());
+        $job = Job::create(['queue' => 'default']);
+        StoreJob::dispatch(DetalleInscripcion::class, $request->all());
+        return response()->json(['transaccionId' => $job->id(), 'message' => 'Grupo en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -44,8 +49,7 @@ class DetalleInscripcionController extends Controller
 
     public function destroy(string $id)
     {
-        $inscripcion = DetalleInscripcion::findOrFail($id);
-        $inscripcion->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(DetalleInscripcion::class, $id);
+        return response()->json(['message' => 'Detalle Inscripción en proceso de eliminación'], 202);
     }
 }

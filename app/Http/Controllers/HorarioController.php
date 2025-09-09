@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
 use App\Models\Horario;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
 
 class HorarioController extends Controller
@@ -14,16 +16,8 @@ class HorarioController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'dia' => 'required|string|in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
-            'grupo_id' => 'required|exists:grupos,id',
-            'aula_id' => 'required|exists:aulas,id',
-            'modulo_id' => 'required|exists:modulos,id'
-        ]);
-
-        return Horario::create($request->all());
+        StoreJob::dispatch(Horario::class, $request->all());
+        return response()->json(['message' => 'Horario en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -50,8 +44,7 @@ class HorarioController extends Controller
 
     public function destroy(string $id)
     {
-        $horario = Horario::findOrFail($id);
-        $horario->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Horario::class, $id);
+        return response()->json(['message' => 'Horario en proceso de eliminación'], 202);
     }
 }

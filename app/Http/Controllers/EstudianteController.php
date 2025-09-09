@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
+use App\Jobs\UpdateJob;
+use App\Jobs\DestroyJob;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
 
@@ -21,7 +24,8 @@ class EstudianteController extends Controller
             'telefono' => 'nullable|string'
         ]);
 
-        return Estudiante::create($request->all());
+        StoreJob::dispatch(Estudiante::class, $request->all());
+        return response()->json(['message' => 'Estudiante en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -40,14 +44,13 @@ class EstudianteController extends Controller
             'telefono' => 'nullable|string'
         ]);
 
-        $estudiante->update($request->all());
-        return $estudiante;
+         UpdateJob::dispatch(Estudiante::class, $id, $request->all());
+        return response()->json(['message' => 'Estudiante en proceso de actualización'], 202);
     }
 
     public function destroy(string $id)
     {
-        $estudiante = Estudiante::findOrFail($id);
-        $estudiante->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Estudiante::class, $id);
+        return response()->json(['message' => 'Estudiante en proceso de eliminación'], 202);
     }
 }

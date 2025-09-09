@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
 use App\Models\Modulo;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
 
 class ModuloController extends Controller
@@ -14,13 +16,8 @@ class ModuloController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'numero' => 'required|string',
-            'hora_inicio' => 'required|date_format:H:i',
-            'hora_fin' => 'required|date_format:H:i|after:hora_inicio'
-        ]);
-
-        return Modulo::create($request->all());
+        StoreJob::dispatch(Modulo::class, $request->all());
+        return response()->json(['message' => 'Modulo en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -44,8 +41,7 @@ class ModuloController extends Controller
 
     public function destroy(string $id)
     {
-        $modulo = Modulo::findOrFail($id);
-        $modulo->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Modulo::class, $id);
+        return response()->json(['message' => 'Modulo en proceso de eliminación'], 202);
     }
 }

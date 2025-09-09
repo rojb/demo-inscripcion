@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
 use App\Models\Gestion;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
 
 class GestionController extends Controller
@@ -14,12 +16,8 @@ class GestionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'año' => 'required|integer|min:2000|max:2100',
-            'periodo' => 'required|integer|in:1,2'
-        ]);
-
-        return Gestion::create($request->all());
+        StoreJob::dispatch(Gestion::class, $request->all());
+        return response()->json(['message' => 'Gestion en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -42,8 +40,7 @@ class GestionController extends Controller
 
     public function destroy(string $id)
     {
-        $gestion = Gestion::findOrFail($id);
-        $gestion->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Gestion::class, $id);
+        return response()->json(['message' => 'Gestión en proceso de eliminación'], 202);
     }
 }

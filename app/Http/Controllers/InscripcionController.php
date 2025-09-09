@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DestroyJob;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 
@@ -64,8 +65,7 @@ class InscripcionController extends Controller
 
     public function destroy(string $id)
     {
-        $inscripcion = Inscripcion::findOrFail($id);
-        $inscripcion->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Inscripcion::class, $id);
+        return response()->json(['message' => 'Inscripción en proceso de eliminación'], 202);
     }
 }

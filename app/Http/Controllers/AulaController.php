@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aula;
+use App\Jobs\StoreJob;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
 
 class AulaController extends Controller
@@ -20,7 +22,8 @@ class AulaController extends Controller
             'ubicacion' => 'nullable|string'
         ]);
 
-        return Aula::create($request->all());
+        StoreJob::dispatch(Aula::class, $request->all());
+        return response()->json(['message' => 'Aula en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -33,19 +36,17 @@ class AulaController extends Controller
         $aula = Aula::findOrFail($id);
 
         $request->validate([
-            'numero' => 'required|string',
-            'capacidad' => 'nullable|integer|min:1',
-            'ubicacion' => 'nullable|string'
+            'numero' => 'required|string'
         ]);
 
         $aula->update($request->all());
         return $aula;
     }
 
+
     public function destroy(string $id)
     {
-        $aula = Aula::findOrFail($id);
-        $aula->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Aula::class, $id);
+        return response()->json(['message' => 'Aula en proceso de eliminación'], 202);
     }
 }

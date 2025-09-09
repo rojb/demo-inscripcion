@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GrupoEstudiante;
+use App\Jobs\StoreJob;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
+use App\Models\GrupoEstudiante;
+use App\Models\Job;
 
 class GrupoEstudianteController extends Controller
 {
     public function index()
     {
+        
         return GrupoEstudiante::with(['estudiante', 'grupo'])->get();
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nota' => 'nullable|numeric|min:0|max:100',
-            'creditos' => 'required|integer|min:1',
-            'estudiante_id' => 'required|exists:estudiantes,id',
-            'grupo_id' => 'required|exists:grupos,id'
-        ]);
-
-        return GrupoEstudiante::create($request->all());
+        StoreJob::dispatch(GrupoEstudiante::class, $request->all());
+        return response()->json(['message' => 'Grupo Estudiante en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -46,9 +44,8 @@ class GrupoEstudianteController extends Controller
 
     public function destroy(string $id)
     {
-        $GrupoEstudiante = GrupoEstudiante::findOrFail($id);
-        $GrupoEstudiante->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(GrupoEstudiante::class, $id);
+        return response()->json(['message' => 'Grupo Estudiante en proceso de eliminación'], 202);
     }
 
     // Método adicional para obtener notas de un estudiante

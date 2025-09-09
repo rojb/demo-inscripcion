@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\StoreJob;
 use App\Models\Carrera;
 use App\Models\Materia;
+use App\Jobs\DestroyJob;
 use Illuminate\Http\Request;
 
 class MateriaController extends Controller
@@ -24,7 +26,8 @@ class MateriaController extends Controller
 
     public function store(Request $request)
     {
-        return Materia::create($request->all());
+        StoreJob::dispatch(Materia::class, $request->all());
+        return response()->json(['message' => 'Materia en proceso de creación'], 202);
     }
 
     public function show(string $id)
@@ -41,8 +44,7 @@ class MateriaController extends Controller
 
     public function destroy(string $id)
     {
-        $materia = Materia::findOrFail($id);
-        $materia->delete();
-        return response()->noContent();
+        DestroyJob::dispatch(Materia::class, $id);
+        return response()->json(['message' => 'Materia en proceso de eliminación'], 202);
     }
 }

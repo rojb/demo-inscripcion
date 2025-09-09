@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DestroyJob;
 use App\Models\MateriaPlan;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,9 @@ class MateriaPlanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MateriaPlan $materiaPlan)
+    public function destroy(string $id)
     {
-        //
+        DestroyJob::dispatch(MateriaPlan::class, $id);
+        return response()->json(['message' => 'Materia Plan en proceso de eliminación'], 202);
     }
 }
